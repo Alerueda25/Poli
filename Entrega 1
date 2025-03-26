@@ -1,0 +1,73 @@
+
+package aleja;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
+
+public class aleja1 {
+
+    public static void main(String[] args) {
+        try {
+            // Llamadas para generar los archivos de entrada
+            createSalesManInfoFile(10);  // Crear 10 vendedores
+            createProductsFile(5);       // Crear 5 productos
+            createSalesMenFile(50, "Juan Pérez", 123456789); // Crear 50 ventas para un vendedor específico
+
+            System.out.println("Archivos generados correctamente.");
+        } catch (IOException e) {
+            System.err.println("Error al generar los archivos: " + e.getMessage());
+        }
+    }
+
+    // Método para generar el archivo de información de los vendedores
+    public static void createSalesManInfoFile(int salesmanCount) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("vendedores.txt"));
+        Random random = new Random();
+        String[] nombres = {"Juan", "Carlos", "Ana", "Pedro", "María"};
+        String[] apellidos = {"Pérez", "González", "Martínez", "López", "Rodríguez"};
+        
+        for (int i = 0; i < salesmanCount; i++) {
+            String tipoDoc = "CC";  // Tipo de documento
+            String numeroDoc = "100" + (random.nextInt(900) + 100);  // Número de documento aleatorio
+            String nombre = nombres[random.nextInt(nombres.length)];
+            String apellido = apellidos[random.nextInt(apellidos.length)];
+            // Escribir el vendedor en el archivo
+            writer.write(tipoDoc + ";" + numeroDoc + ";" + nombre + ";" + apellido + "\n");
+        }
+        writer.close();
+    }
+
+    // Método para generar el archivo de productos
+    public static void createProductsFile(int productsCount) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("productos.txt"));
+        Random random = new Random();
+        String[] productNames = {"Laptop", "Smartphone", "Tablet", "Headphones", "Smartwatch"};
+
+        for (int i = 0; i < productsCount; i++) {
+            String productId = String.format("P%03d", i + 1);  // ID del producto (P001, P002, ...)
+            String productName = productNames[random.nextInt(productNames.length)];
+            double productPrice = 100 + random.nextDouble() * 1000;  // Precio aleatorio entre 100 y 1100
+            // Escribir el producto en el archivo
+            writer.write(productId + ";" + productName + ";" + String.format("%.2f", productPrice) + "\n");
+        }
+        writer.close();
+    }
+
+    // Método para generar el archivo de ventas
+    public static void createSalesMenFile(int salesCount, String name, long id) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(name + "_" + id + "_ventas.txt"));
+        Random random = new Random();
+
+        // Escribir la cabecera con la información del vendedor
+        writer.write("CC;" + id + "\n");
+
+        for (int i = 0; i < salesCount; i++) {
+            String productId = "P" + (random.nextInt(5) + 1);  // Producto aleatorio (P001, P002, ...)
+            int quantitySold = random.nextInt(10) + 1;  // Cantidad de productos vendidos (1-10)
+            // Escribir la venta en el archivo
+            writer.write(productId + ";" + quantitySold + ";\n");
+        }
+        writer.close();
+    }
+}
