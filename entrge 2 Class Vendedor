@@ -1,0 +1,50 @@
+
+package aleja;
+
+public class Vendedor {
+    private String tipoDocumento;
+    private String numeroDocumento;
+    private String nombre;
+    private String apellido;
+    private double totalVentas;
+
+    // Constructor de la clase Vendedor
+    public Vendedor(String tipoDocumento, String numeroDocumento, String nombre, String apellido) {
+        this.tipoDocumento = tipoDocumento;
+        this.numeroDocumento = numeroDocumento;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.totalVentas = 0.0;
+    }
+
+    // Método para agregar el valor de una venta
+    public void agregarVenta(double valor) {
+        totalVentas += valor;
+    }
+
+    // Métodos getters
+    public String getTipoDocumento() {
+        return tipoDocumento; 
+    }
+
+    public String getNumeroDocumento() {
+        return numeroDocumento; // Método getter para obtener el número de documento
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido; // Método getter para obtener el apellido
+    }
+
+    public double getTotalVentas() {
+        return totalVentas;
+    }
+
+    @Override
+    public String toString() {
+        return tipoDocumento + " " + numeroDocumento + " - " + nombre + " " + apellido + " - Total Vendido: " + totalVentas;
+    }
+}
