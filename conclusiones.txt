@@ -1,0 +1,28 @@
+1. Lo aprendido durante el desarrollo del proyecto:
+
+Durante el desarrollo de este proyecto aprendí a trabajar con lectura y escritura de archivos en Java, 
+utilizar estructuras de datos como mapas (Map) para almacenar objetos y acceder a ellos eficientemente
+ y organizar correctamente el código en clases separadas siguiendo buenas prácticas de programación orientada
+  a objetos (POO). También aprendí a automatizar la generación de datos mediante código, creando archivos de 
+  prueba con información aleatoria de productos, vendedores y ventas. Otro aspecto clave fue generar reportes
+   en formato CSV, reforzando habilidades prácticas para el manejo, análisis y exportación de datos. Además, 
+   comprendí la importancia del manejo de excepciones para asegurar que el programa se ejecute de manera segura
+   y controlada, incluso en presencia de errores.
+
+2. Posibles aplicaciones en mi vida profesional:
+
+Las habilidades adquiridas en este proyecto son útiles para desarrollar sistemas de gestión de información en 
+empresas, como control de inventarios, administración de ventas, seguimiento de rendimiento de vendedores o 
+generación de reportes financieros automatizados. Comprender cómo procesar archivos externos, estructurar clases,
+trabajar con colecciones y generar archivos de salida es fundamental para cualquier desarrollo de software profesional.
+Estos conocimientos también pueden ser aplicados en la automatización de tareas administrativas, en proyectos de análisis
+ de datos o en el desarrollo de soluciones empresariales que requieren almacenamiento y recuperación de información estructurada.
+
+3. Dificultades presentadas durante el desarrollo del proyecto:
+
+Una de las principales dificultades fue entender cómo leer correctamente los archivos de texto y mapear sus datos a objetos,
+asegurando que los datos se interpretaran adecuadamente sin errores de formato. También me costó un poco organizar las clases y
+asegurarme de que las rutas de los archivos fueran correctas, especialmente al trabajar con carpetas dentro del entorno de desarrollo
+ Eclipse. Además, aprender a generar archivos de manera dinámica con datos aleatorios y luego reutilizarlos para procesar ventas
+ exigía atención al detalle y pruebas constantes para validar que los datos se generaban y leían correctamente. Otra dificultad 
+ fue integrar todas las clases de forma modular y funcional, asegurando la coherencia en el flujo del programa.
