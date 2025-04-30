@@ -1,46 +1,24 @@
+// Indica que esta clase pertenece al paquete "aleja"
 package aleja;
 
+// Se declara la clase pública Vendedor
 public class Vendedor {
+
+    // Atributos privados del vendedor: tipo y número de documento, nombre, apellido y total de ventas
     private String tipoDocumento;
     private String numeroDocumento;
     private String nombre;
     private String apellido;
     private double totalVentas;
 
+    // Constructor: se ejecuta al crear un objeto de tipo Vendedor
+    // Recibe tipoDocumento, numeroDocumento, nombre y apellido como parámetros
     public Vendedor(String tipoDocumento, String numeroDocumento, String nombre, String apellido) {
-        this.tipoDocumento = tipoDocumento;
-        this.numeroDocumento = numeroDocumento;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.totalVentas = 0.0;
+        this.tipoDocumento = tipoDocumento;       // Asigna el tipo de documento
+        this.numeroDocumento = numeroDocumento;   // Asigna el número de documento
+        this.nombre = nombre;                     // Asigna el nombre
+        this.apellido = apellido;                 // Asigna el apellido
+        this.totalVentas = 0.0;                   // Inicializa las ventas en 0.0
     }
 
-    public void agregarVenta(double valor) {
-        totalVentas += valor;
-    }
-
-    public String getTipoDocumento() {
-        return tipoDocumento;
-    }
-
-    public String getNumeroDocumento() {
-        return numeroDocumento;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public double getTotalVentas() {
-        return totalVentas;
-    }
-
-    @Override
-    public String toString() {
-        return tipoDocumento + " " + numeroDocumento + " - " + nombre + " " + apellido + " - Total Vendido: " + totalVentas;
-    }
-}
+    // Método que suma una venta al total del vende
