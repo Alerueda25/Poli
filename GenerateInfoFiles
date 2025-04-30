@@ -1,71 +1,59 @@
-package entrega;
+// Indica que esta clase pertenece al paquete "aleja"
+package aleja;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Random;
+// Se declara la clase pública Vendedor
+public class Vendedor {
 
-public class GenerateInfoFiles {
+    // Atributos privados del vendedor: tipo y número de documento, nombre, apellido y total de ventas
+    private String tipoDocumento;
+    private String numeroDocumento;
+    private String nombre;
+    private String apellido;
+    private double totalVentas;
 
-    public static void main(String[] args) {
-        try {
-            createSalesManInfoFile(10); // Genera 10 vendedores
-            createProductsFile(5); // Genera 5 productos
-            createSalesMenFile(50, "Juan Pérez", 123456789); // Genera 50 ventas para Juan Pérez
-
-            System.out.println("Archivos generados correctamente.");
-        } catch (IOException e) {
-            System.err.println("Error al generar los archivos: " + e.getMessage());
-        }
+    // Constructor: se ejecuta al crear un objeto de tipo Vendedor
+    // Recibe tipoDocumento, numeroDocumento, nombre y apellido como parámetros
+    public Vendedor(String tipoDocumento, String numeroDocumento, String nombre, String apellido) {
+        this.tipoDocumento = tipoDocumento;       // Asigna el tipo de documento
+        this.numeroDocumento = numeroDocumento;   // Asigna el número de documento
+        this.nombre = nombre;                     // Asigna el nombre
+        this.apellido = apellido;                 // Asigna el apellido
+        this.totalVentas = 0.0;                   // Inicializa las ventas en 0.0
     }
 
-    public static void createSalesManInfoFile(int salesmanCount) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("vendedores.txt"));
-        Random random = new Random();
-        String[] nombres = {"Juan", "Carlos", "Ana", "Pedro", "María"};
-        String[] apellidos = {"Pérez", "González", "Martínez", "López", "Rodríguez"};
-
-        for (int i = 0; i < salesmanCount; i++) {
-            String tipoDoc = "CC";
-            String numeroDoc = "100" + (random.nextInt(900) + 100);
-            String nombre = nombres[random.nextInt(nombres.length)];
-            String apellido = apellidos[random.nextInt(apellidos.length)];
-
-            writer.write(tipoDoc + ";" + numeroDoc + ";" + nombre + ";" + apellido + "\n");
-        }
-
-        writer.close();
+    // Método que suma una venta al total del vendedor
+    // Recibe el valor de la venta como parámetro
+    public void agregarVenta(double valor) {
+        totalVentas += valor; // Suma el valor recibido al total de ventas
     }
 
-    public static void createProductsFile(int productsCount) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("productos.txt"));
-        Random random = new Random();
-        String[] productNames = {"Laptop", "Smartphone", "Tablet", "Headphones", "Smartwatch"};
+    // Métodos 'getter' para acceder a los atributos privados:
 
-        for (int i = 0; i < productsCount; i++) {
-            String productId = String.format("P%03d", i + 1);
-            String productName = productNames[random.nextInt(productNames.length)];
-            double productPrice = 100 + random.nextDouble() * 1000;
-
-            writer.write(productId + ";" + productName + ";" + String.format("%.2f", productPrice) + "\n");
-        }
-
-        writer.close();
+    public String getTipoDocumento() {
+        return tipoDocumento; // Devuelve el tipo de documento
     }
 
-    public static void createSalesMenFile(int randomSalesCount, String name, long id) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(name + "_" + id + "_ventas.txt"));
-        Random random = new Random();
+    public String getNumeroDocumento() {
+        return numeroDocumento; // Devuelve el número de documento
+    }
 
-        writer.write("CC;" + id + "\n");
+    public String getNombre() {
+        return nombre; // Devuelve el nombre del vendedor
+    }
 
-        for (int i = 0; i < randomSalesCount; i++) {
-            String productId = "P" + (random.nextInt(5) + 1);
-            int quantitySold = random.nextInt(10) + 1;
+    public String getApellido() {
+        return apellido; // Devuelve el apellido del vendedor
+    }
 
-            writer.write(productId + ";" + quantitySold + ";\n");
-        }
+    public double getTotalVentas() {
+        return totalVentas; // Devuelve el total de ventas acumulado
+    }
 
-        writer.close();
+    // Sobrescribe el método toString para representar el objeto como texto legible
+    // Útil para imprimir la información del vendedor en consola o archivos
+    @Override
+    public String toString() {
+        return tipoDocumento + " " + numeroDocumento + " - " + nombre + " " + apellido +
+               " - Total Vendido: " + totalVentas;
     }
 }
