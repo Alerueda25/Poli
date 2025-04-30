@@ -1,156 +1,158 @@
+// Define el paquete donde se encuentra esta clase
 package aleja;
+
+// Importa las clases necesarias para manejar archivos y colecciones
 import java.io.*;
 import java.util.*;
 
-public class Leerarchivos {
+// Clase principal del programa que lee los archivos generados y calcula las ventas
+public class Main {
 
     public static void main(String[] args) {
-        // Definimos las rutas a los archivos dentro de la carpeta src
-        String rutaVendedores = "src/vendedores.txt"; // Archivo con los vendedores
-        String rutaProductos = "src/productos.txt";   // Archivo con los productos
-        String rutaVentas = "src/Juan Pérez_123456789_ventas.txt"; // Archivo con las ventas (aseguramos que la ruta sea correcta)
+        // Definimos la ruta de los archivos dentro del proyecto (normalmente están en src/)
+        String rutaVendedores = "src/vendedores.txt"; // Archivo de datos de los vendedores
+        String rutaProductos = "src/productos.txt";   // Archivo de datos de los productos
+        String rutaVentas = "src/Juan Pérez_123456789_ventas.txt"; // Archivo de ventas para un vendedor específico
 
         try {
-            // Leemos los vendedores desde el archivo
+            // Carga los vendedores desde el archivo y los guarda en un mapa (clave = número documento)
             Map<String, Vendedor> vendedores = leerVendedores(rutaVendedores);
 
-            // Leemos los productos desde el archivo
+            // Carga los productos desde el archivo y los guarda en un mapa (clave = ID producto)
             Map<String, Producto> productos = leerProductos(rutaProductos);
 
-            // Procesamos las ventas usando los vendedores y productos leídos
+            // Procesa el archivo de ventas usando los datos cargados
             procesarVentas(rutaVentas, vendedores, productos);
 
-            // Imprimimos los resultados de ventas por vendedor
+            // Imprime por consola las ventas totales por vendedor
             for (Vendedor vendedor : vendedores.values()) {
                 System.out.println(vendedor);
             }
 
-            // Generamos el archivo CSV con los resultados de ventas
+            // Genera un archivo CSV con los resultados de ventas por vendedor
             generarReporteCSV(vendedores, "reporte_ventas.csv");
 
         } catch (IOException e) {
-            // Si ocurre algún error al leer los archivos, lo capturamos y mostramos un mensaje de error
+            // Muestra mensaje si ocurre un error al trabajar con archivos
             System.err.println("Error al leer los archivos: " + e.getMessage());
         }
     }
 
-    // Método para leer los datos de los vendedores desde un archivo y cargarlos en un Map
+    // Lee los vendedores desde un archivo y los retorna en un mapa
     public static Map<String, Vendedor> leerVendedores(String archivoVendedores) throws IOException {
-        // Usamos BufferedReader para leer el archivo línea por línea
         try (BufferedReader reader = new BufferedReader(new FileReader(archivoVendedores))) {
             Map<String, Vendedor> vendedores = new HashMap<>();
             String line;
-            // Leemos cada línea del archivo
+
+            // Lee cada línea del archivo de vendedores
             while ((line = reader.readLine()) != null) {
-                // Separamos los datos de cada línea por el delimitador ";"
+                // Divide la línea usando punto y coma como separador
                 String[] datos = line.split(";");
                 String tipoDoc = datos[0];
                 String numeroDoc = datos[1];
                 String nombre = datos[2];
                 String apellido = datos[3];
-                // Creamos un objeto Vendedor con los datos leídos
+
+                // Crea un objeto Vendedor con los datos leídos
                 Vendedor vendedor = new Vendedor(tipoDoc, numeroDoc, nombre, apellido);
-                // Guardamos el vendedor en el Map, usando el número de documento como clave
+
+                // Lo guarda en el mapa, usando el número de documento como clave
                 vendedores.put(numeroDoc, vendedor);
             }
+
             return vendedores;
         }
     }
 
-    // Método para leer los datos de los productos desde un archivo y cargarlos en un Map
+    // Lee los productos desde un archivo y los retorna en un mapa
     public static Map<String, Producto> leerProductos(String archivoProductos) throws IOException {
-        // Usamos BufferedReader para leer el archivo línea por línea
         try (BufferedReader reader = new BufferedReader(new FileReader(archivoProductos))) {
             Map<String, Producto> productos = new HashMap<>();
             String line;
-            // Leemos cada línea del archivo
+
+            // Lee cada línea del archivo de productos
             while ((line = reader.readLine()) != null) {
-                // Separamos los datos de cada línea por el delimitador ";"
                 String[] datos = line.split(";");
                 String idProducto = datos[0];
                 String nombreProducto = datos[1];
-                // Convertimos el precio de String a Double, reemplazando la coma por un punto
+                // Reemplaza la coma por punto en el precio si es necesario y lo convierte a double
                 double precioProducto = Double.parseDouble(datos[2].replace(",", "."));
-                // Creamos un objeto Producto con los datos leídos
+
+                // Crea el objeto producto
                 Producto producto = new Producto(idProducto, nombreProducto, precioProducto);
-                // Guardamos el producto en el Map, usando el ID como clave
+
+                // Lo guarda en el mapa usando el ID como clave
                 productos.put(idProducto, producto);
             }
+
             return productos;
         }
     }
 
-    // Método para procesar las ventas de un archivo
+    // Procesa las ventas y suma los valores a los vendedores
     public static void procesarVentas(String archivoVentas, Map<String, Vendedor> vendedores, Map<String, Producto> productos) throws IOException {
-        // Usamos BufferedReader para leer el archivo de ventas
         try (BufferedReader reader = new BufferedReader(new FileReader(archivoVentas))) {
             String line;
-            // Leemos la primera línea que contiene la cédula del vendedor
-            line = reader.readLine(); 
+
+            // Lee la primera línea que contiene la información del vendedor
+            line = reader.readLine();
             if (line != null) {
                 String[] datosVendedor = line.split(";");
                 if (datosVendedor.length >= 2) {
-                    // Obtenemos el ID del vendedor desde la línea
-                    String vendedorId = datosVendedor[1].trim();
-                    // Buscamos al vendedor en el Map usando su ID
-                    Vendedor vendedor = vendedores.get(vendedorId);
+                    String vendedorId = datosVendedor[1].trim(); // Se extrae el número de documento
+                    Vendedor vendedor = vendedores.get(vendedorId); // Se busca el vendedor en el mapa
+
                     if (vendedor == null) {
-                        // Si el vendedor no existe en el Map, mostramos un mensaje de error
                         System.out.println("Vendedor no encontrado: " + vendedorId);
                         return;
                     }
 
-                    // Procesamos cada venta en el archivo
+                    // Procesa el resto de líneas que contienen ventas
                     while ((line = reader.readLine()) != null) {
                         String[] datosVenta = line.split(";");
-                        if (datosVenta.length < 2) continue; // Si no hay suficientes datos, saltamos esta línea
+                        if (datosVenta.length < 2) continue;
 
-                        // Obtenemos el ID del producto y la cantidad vendida
                         String idProducto = datosVenta[0].trim();
                         int cantidadVendida = Integer.parseInt(datosVenta[1].trim());
 
-                        // Verificamos si el ID del producto tiene un formato correcto
+                        // Corrige el formato del ID si está incompleto
                         if (idProducto.length() == 2) {
-                            idProducto = "P00" + idProducto.charAt(1); // Convierte 'P1' a 'P001'
+                            idProducto = "P00" + idProducto.charAt(1);
                         } else if (idProducto.length() == 3) {
-                            idProducto = "P0" + idProducto.charAt(1) + idProducto.charAt(2); // Convierte 'P3' a 'P003'
+                            idProducto = "P0" + idProducto.charAt(1) + idProducto.charAt(2);
                         }
 
-                        // Buscamos el producto en el Map usando su ID
                         Producto producto = productos.get(idProducto);
                         if (producto != null) {
-                            // Calculamos el dinero recibido por la venta
                             double dineroRecibido = producto.getPrecio() * cantidadVendida;
-                            // Agregamos la venta al total del vendedor
                             vendedor.agregarVenta(dineroRecibido);
-                            // Mostramos un mensaje con la venta procesada
                             System.out.println("Venta procesada para " + vendedor.getNombre() + ": " + producto.getNombre() + " x " + cantidadVendida + " = " + dineroRecibido);
                         } else {
-                            // Si el producto no se encuentra, mostramos un mensaje de error
                             System.out.println("Producto no encontrado para la venta: " + idProducto);
                         }
                     }
                 } else {
-                    // Si la primera línea no tiene el formato correcto, mostramos un mensaje de error
                     System.out.println("Formato incorrecto en la primera línea del archivo de ventas.");
                 }
             }
         }
     }
 
-    // Método para generar el archivo CSV con los resultados de ventas
+    // Genera un archivo CSV con los datos de ventas por vendedor
     public static void generarReporteCSV(Map<String, Vendedor> vendedores, String nombreArchivo) throws IOException {
-        // Usamos BufferedWriter para escribir el archivo CSV
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
-            // Escribimos la cabecera del archivo CSV
+            // Cabecera del archivo CSV
             writer.write("Tipo Documento, Número Documento, Nombre, Apellido, Total Vendido\n");
 
-            // Escribimos los datos de cada vendedor en el archivo CSV
+            // Escribe una línea por cada vendedor
             for (Vendedor vendedor : vendedores.values()) {
-                writer.write(vendedor.getTipoDocumento() + ", " + vendedor.getNumeroDocumento() + ", " + vendedor.getNombre() + ", " + vendedor.getApellido() + ", " + vendedor.getTotalVentas() + "\n");
+                writer.write(vendedor.getTipoDocumento() + ", " +
+                             vendedor.getNumeroDocumento() + ", " +
+                             vendedor.getNombre() + ", " +
+                             vendedor.getApellido() + ", " +
+                             vendedor.getTotalVentas() + "\n");
             }
 
-            // Mostramos un mensaje indicando que el reporte fue generado correctamente
             System.out.println("Reporte CSV generado exitosamente.");
         }
     }
