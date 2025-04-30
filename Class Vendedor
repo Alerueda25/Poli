@@ -1,4 +1,3 @@
-
 package aleja;
 
 public class Vendedor {
@@ -8,7 +7,6 @@ public class Vendedor {
     private String apellido;
     private double totalVentas;
 
-    // Constructor de la clase Vendedor
     public Vendedor(String tipoDocumento, String numeroDocumento, String nombre, String apellido) {
         this.tipoDocumento = tipoDocumento;
         this.numeroDocumento = numeroDocumento;
@@ -17,18 +15,16 @@ public class Vendedor {
         this.totalVentas = 0.0;
     }
 
-    // Método para agregar el valor de una venta
     public void agregarVenta(double valor) {
         totalVentas += valor;
     }
 
-    // Métodos getters
     public String getTipoDocumento() {
-        return tipoDocumento; 
+        return tipoDocumento;
     }
 
     public String getNumeroDocumento() {
-        return numeroDocumento; // Método getter para obtener el número de documento
+        return numeroDocumento;
     }
 
     public String getNombre() {
@@ -36,7 +32,7 @@ public class Vendedor {
     }
 
     public String getApellido() {
-        return apellido; // Método getter para obtener el apellido
+        return apellido;
     }
 
     public double getTotalVentas() {
