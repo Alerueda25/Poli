@@ -21,4 +21,39 @@ public class Vendedor {
         this.totalVentas = 0.0;                   // Inicializa las ventas en 0.0
     }
 
-    // Método que suma una venta al total del vende
+    // Método que suma una venta al total del vendedor
+    // Recibe el valor de la venta como parámetro
+    public void agregarVenta(double valor) {
+        totalVentas += valor; // Suma el valor recibido al total de ventas
+    }
+
+    // Métodos 'getter' para acceder a los atributos privados:
+
+    public String getTipoDocumento() {
+        return tipoDocumento; // Devuelve el tipo de documento
+    }
+
+    public String getNumeroDocumento() {
+        return numeroDocumento; // Devuelve el número de documento
+    }
+
+    public String getNombre() {
+        return nombre; // Devuelve el nombre del vendedor
+    }
+
+    public String getApellido() {
+        return apellido; // Devuelve el apellido del vendedor
+    }
+
+    public double getTotalVentas() {
+        return totalVentas; // Devuelve el total de ventas acumulado
+    }
+
+    // Sobrescribe el método toString para representar el objeto como texto legible
+    // Útil para imprimir la información del vendedor en consola o archivos
+    @Override
+    public String toString() {
+        return tipoDocumento + " " + numeroDocumento + " - " + nombre + " " + apellido +
+               " - Total Vendido: " + totalVentas;
+    }
+}
